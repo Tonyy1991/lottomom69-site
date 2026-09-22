@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI หวยรัฐบาลไทย — วิเคราะห์ด้วย AI/ML, สูตรไขว้+8, สูตรอักท้าย-สลับ-สร้อย และ Data Analytics เพื่อทำนายหวยงวดถัดไป">
+    <title>🐉 LottoMOMเฮง เฮง เฮง — AI Thai Lottery</title>
+    <link rel="stylesheet" href="lottery_predictor.css?v=7.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐉</text></svg>">
+</head>
+<body>
+
+<!-- 🌌 Rotating Galaxy Background (รูปจริง + ฉากสำรอง gradient) -->
+<div class="galaxy-bg" id="galaxyBg"></div>
+
+<!-- 🛩️ Sticky Header — โลโก้ AEROTHAI -->
+<header class="app-header" id="appHeader">
+    <img src="images/logo-wizard.jpg" alt="LottoMOMเฮง" class="header-logo" onerror="this.onerror=null;this.src='images/logo-aerothai.jpg'">
+    <div class="header-titles">
+        <span class="header-brand">LottoMOMเฮง เฮง เฮง</span>
+        <span class="header-sub">🐉 เซียนหวยจักรวาล • ฟันธงเลขเด็ด</span>
+    </div>
+    <span class="header-badge">🔮 AI ฟันธง</span>
+</header>
+
+<!-- WebGL 3D Blackhole Canvas -->
+<canvas id="webglCanvas"></canvas>
+
+<!-- Parallax Star Layers -->
+<div class="parallax-layer stars-far" id="starsFar"></div>
+<div class="parallax-layer stars-mid" id="starsMid"></div>
+<div class="parallax-layer stars-near" id="starsNear"></div>
+
+<!-- Floating Cosmic Particles -->
+<div class="cosmic-particles" id="cosmicParticles"></div>
+
+<!-- 💰 Money Rain — เศรษฐีใหม่โปรยเงิน -->
+<div class="money-rain" id="moneyRain"></div>
+
+<!-- ✨ Gold Sparkles — ทองคำวิบวับ -->
+<div class="gold-sparkles" id="goldSparkles"></div>
+
+<!-- 💥 Big Bang Flash — แสงระเบิดกาลจักรวาล -->
+<div class="bigbang-flash" id="bigbangFlash"></div>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-blackhole">
+        <div class="loading-ring ring1"></div>
+        <div class="loading-ring ring2"></div>
+        <div class="loading-ring ring3"></div>
+        <div class="loading-core"></div>
+    </div>
+    <div class="loading-text">🌌 AI กำลังวิเคราะห์ข้อมูลจากจักรวาล...</div>
+    <div class="loading-sub">Fusion v7 — ถ่วงน้ำหนักทุกสูตรตามผลงานจริงย้อนหลัง: ไขว้+8 × อักท้าย-สลับ-สร้อย × มงคลพ่อหลวง × อัตราส่วนทองคำ φ × ควอนตัมกระจกเงา × Markov Chain × เลขค้าง × จันทรคติ × ไอน์สไตน์</div>
+</div>
+
+<!-- ============ SECTION 1: HERO — Kinetic Typography ============ -->
+<section class="hero-section" id="hero">
+    <div class="hero-content">
+        <img src="images/logo-wizard.jpg" alt="LottoMOMเฮง" class="hero-logo" id="heroLogo" onerror="this.onerror=null;this.src='images/logo-aerothai.jpg'">
+        <div class="kinetic-title" id="kineticTitle">
+            <h1 class="kinetic-h1" data-text="AI THAI LOTTERY">AI THAI LOTTERY</h1>
+        </div>
+        <p class="hero-tagline">
+            <span class="tagline-word" data-delay="0">Galaxy</span>
+            <span class="tagline-word" data-delay="1">Predictor</span>
+            <span class="tagline-divider">—</span>
+            <span class="tagline-word" data-delay="2">วิเคราะห์ด้วย</span>
+            <span class="tagline-word" data-delay="3">AI</span>
+            <span class="tagline-word" data-delay="4">×</span>
+            <span class="tagline-word" data-delay="5">สูตรไขว้+8</span>
+            <span class="tagline-word" data-delay="6">×</span>
+            <span class="tagline-word" data-delay="7">สถิติ</span>
+        </p>
+        <div class="hero-badge">💝 สร้างด้วยรักให้คุณแม่ 💝</div>
+        <div class="next-draw-badge" id="nextDrawBadge">
+            🗓️ งวดถัดไป: <span id="nextDrawDate">กำลังคำนวณ...</span>
+        </div>
+    </div>
+    <div class="scroll-indicator" id="scrollIndicator">
+        <span>เลื่อนลง</span>
+        <div class="scroll-arrow"></div>
+    </div>
+</section>
+
+<!-- ============ SECTION 2: SCROLLYTELLING — How it works ============ -->
+<section class="scrollytelling-section" id="howItWorks">
+    <div class="section-header scroll-reveal">
+        <h2 class="gradient-text-large">🧠 วิธีการทำนาย</h2>
+        <p class="section-desc">ระบบ Fusion ผสานสูตรโบราณ × AI สมัยใหม่</p>
+    </div>
+
+    <div class="scroll-steps">
+        <div class="scroll-step" data-step="1">
+            <div class="step-card glass-card">
+                <div class="step-number">01</div>
+                <div class="step-icon">⚡</div>
+                <h3>สูตรไขว้ +8</h3>
+                <p>นำเลขรางวัลที่ 1 (6 หลัก) ไขว้กับเลขท้าย 2 ตัว แล้วบวก 8 (mod 10) สร้างชุดเลขคาดการณ์ใหม่จากรูปแบบเชิงคณิตศาสตร์</p>
+                <div class="step-formula">
+                    <code>digit[i] + 8 → mod 10 → cross combine</code>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-step" data-step="2">
+            <div class="step-card glass-card">
+                <div class="step-number">02</div>
+                <div class="step-icon">🔄</div>
+                <h3>สูตรอักท้าย-สลับ-สร้อย</h3>
+                <p>คำนวณจากตำแหน่งหลักเฉพาะ → หาผลรวม → สลับตำแหน่ง → เชื่อมโยงเลขข้ามงวด (Chain Linking) เพื่อสร้างชุดเลขท้าย</p>
+                <div class="step-formula">
+                    <code>sum → swap → chain → predict</code>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-step" data-step="3">
+            <div class="step-card glass-card">
+                <div class="step-number">03</div>
+                <div class="step-icon">📊</div>
+                <h3>AI/ML Data Analytics</h3>
+                <p>เลขร้อนถ่วงเวลา (ครึ่งชีวิต 6/24/100 งวด), ความถี่รายตำแหน่ง, เลขค้าง, Markov Chain และจังหวะงวดวันที่ 1/16</p>
+                <div class="step-formula">
+                    <code>frequency × gap × markov → probability</code>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-step" data-step="4">
+            <div class="step-card glass-card">
+                <div class="step-number">04</div>
+                <div class="step-icon">🌀</div>
+                <h3>Fusion Algorithm</h3>
+                <p>ทุกสูตรถูก "สอบย้อนหลัง" กับผลรางวัลจริงทุกงวดตั้งแต่ปี 2553 — สูตรไหนทายดี น้ำหนักเพิ่มเอง สูตรไหนทายพลาด น้ำหนักลดเอง (Weighted Average ตามผลงานจริง) แล้วฟันธงเลขที่คะแนนรวมสูงสุด โดยไม่ซ้ำเลขที่เพิ่งฟันธงไปงวดก่อน</p>
+                <div class="step-formula">
+                    <code>ทุกสูตร × น้ำหนักจากผลงานจริง → ฟันธง</code>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 3: INPUT FORM — Single Draw + Cumulative ============ -->
+<section class="input-section" id="inputSection">
+    <div class="section-header scroll-reveal">
+        <h2 class="gradient-text-large">📋 กรอกผลรางวัลงวดล่าสุด</h2>
+        <p class="section-desc">ระบบมีผลรางวัลจริงย้อนหลังตั้งแต่ปี 2553 ฝังมาให้แล้ว — เพิ่มเฉพาะงวดใหม่ก็พอ ข้อมูลจาก <a href="https://www.glo.or.th/home-page" target="_blank" rel="noopener" class="glo-link">สำนักงานสลากกินแบ่งรัฐบาล</a></p>
+    </div>
+
+    <!-- Cumulative Counter -->
+    <div class="cumulative-counter glass-card" id="cumulativeCounter">
+        <div class="counter-icon">📊</div>
+        <div class="counter-info">
+            <div class="counter-label">ข้อมูลสะสม</div>
+            <div class="counter-value"><span id="drawCount">0</span> งวด <span class="counter-max">/ 100,000</span></div>
+        </div>
+        <button id="clearDataBtn" class="btn-clear" title="ล้างข้อมูลทั้งหมด">🗑️</button>
+    </div>
+
+    <!-- Single Draw Input -->
+    <div class="bento-grid input-bento">
+        <div class="bento-item bento-featured glass-card micro-tilt" id="drawInput">
+            <div class="draw-badge current">🆕 เพิ่มงวดใหม่</div>
+            <div class="input-fields">
+                <div class="field-group">
+                    <label>📅 วันที่งวด</label>
+                    <input type="text" id="drawDate" class="cosmic-input date-input" placeholder="เช่น 01/03/69" maxlength="8" autocomplete="off">
+                    <span class="field-hint">วว/ดด/ปป</span>
+                </div>
+                <div class="field-group">
+                    <label>🏆 เลขรางวัลที่ 1</label>
+                    <input type="text" id="firstPrizeInput" class="cosmic-input first-prize-input" placeholder="xxxxxx" maxlength="6" inputmode="numeric" autocomplete="off">
+                    <span class="field-hint">6 หลัก</span>
+                </div>
+                <div class="field-group field-short">
+                    <label>🔢 เลขท้าย 2 ตัว</label>
+                    <input type="text" id="last2Input" class="cosmic-input last2-input" placeholder="xx" maxlength="2" inputmode="numeric" autocomplete="off">
+                    <span class="field-hint">2 หลัก</span>
+                </div>
+            </div>
+            <div class="input-actions">
+                <button id="saveDrawBtn" class="btn-save">
+                    <span class="btn-icon">💾</span> บันทึกงวด
+                </button>
+                <button id="gloFetchBtn" class="btn-glo">
+                    <span class="btn-icon">🌐</span> ดึงข้อมูลจาก GLO อัตโนมัติ
+                </button>
+                <button id="exampleBtn" class="btn-ghost">
+                    <span class="btn-icon">📗</span> ดูผลรางวัลทั้งหมด
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- History Table -->
+    <div class="history-section glass-card" id="historySection">
+        <div class="history-header">
+            <h3>📜 ประวัติงวดที่สะสม</h3>
+            <span class="history-count" id="historyCount">แสดง 0 งวดล่าสุด</span>
+        </div>
+        <div class="history-table-wrap" id="historyTableWrap">
+            <table class="history-table" id="historyTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>📅 งวด</th>
+                        <th>🏆 รางวัลที่ 1</th>
+                        <th>🔢 ท้าย 2 ตัว</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="historyBody">
+                    <tr class="empty-row"><td colspan="5">ยังไม่มีข้อมูล — กรอกผลรางวัลเพื่อเริ่มสะสม</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-bar">
+        <button id="predictBtn" class="btn-cosmic">
+            <span class="btn-icon">🚀</span>
+            <span class="btn-text">🔮 ฟันธง! ทำนายงวดถัดไป</span>
+            <span class="btn-shine"></span>
+        </button>
+    </div>
+</section>
+
+<!-- ============ SECTION 4: RESULTS — ฟันธง เลขเดียว ============ -->
+<section class="results-section" id="resultsSection">
+    <div class="section-header">
+        <h2 class="gradient-text-large">🎯 ผลทำนาย ฟันธง! งวดถัดไป</h2>
+        <p class="section-desc fanthong-sub">⚡ เลขเดียวเท่านั้น — AI วิเคราะห์จากผลรางวัลจริง <span id="resultDrawCount">0</span> งวด</p>
+        <p class="section-desc data-freshness" id="dataFreshness"></p>
+    </div>
+
+    <div class="bento-grid results-bento">
+        <!-- First Prize — เลขเดียวฟันธง -->
+        <div class="bento-item bento-wide glass-card result-card fanthong-card" id="resultFirst">
+            <div class="fanthong-badge">⚡ ฟันธง!</div>
+            <div class="result-badge gold-badge">🏆 รางวัลที่ 1 — เลข 6 หลัก</div>
+            <div class="result-sets">
+                <div class="result-set fanthong-set">
+                    <div class="number-display fanthong-number" id="firstPrize1"></div>
+                </div>
+            </div>
+            <div class="fanthong-prob" id="firstPrizeProb"></div>
+        </div>
+
+        <!-- Last 3 Digits — เลขเดียวฟันธง -->
+        <div class="bento-item glass-card result-card fanthong-card" id="resultLast3">
+            <div class="fanthong-badge">⚡ ฟันธง!</div>
+            <div class="result-badge pink-badge">🎲 เลขท้าย 3 ตัว</div>
+            <div class="result-sets">
+                <div class="result-set fanthong-set">
+                    <div class="number-display fanthong-number" id="last3_1"></div>
+                </div>
+            </div>
+            <div class="fanthong-prob" id="last3Prob"></div>
+        </div>
+
+        <!-- Last 2 Digits — เลขเดียวฟันธง -->
+        <div class="bento-item glass-card result-card fanthong-card" id="resultLast2">
+            <div class="fanthong-badge">⚡ ฟันธง!</div>
+            <div class="result-badge cyan-badge">💎 เลขท้าย 2 ตัว</div>
+            <div class="result-sets">
+                <div class="result-set fanthong-set">
+                    <div class="number-display fanthong-number" id="result_last2_1"></div>
+                </div>
+            </div>
+            <div class="fanthong-prob" id="last2Prob"></div>
+        </div>
+
+        <!-- Confidence Meter -->
+        <div class="bento-item glass-card" id="resultConfidence">
+            <div class="result-badge purple-badge">🧠 สูตรที่เชียร์เลขท้าย 2 ตัว</div>
+            <div class="confidence-ring-container">
+                <svg class="confidence-ring" viewBox="0 0 120 120">
+                    <circle class="confidence-bg" cx="60" cy="60" r="52" />
+                    <circle class="confidence-progress" id="confRing" cx="60" cy="60" r="52" />
+                </svg>
+                <div class="confidence-percent" id="confPercent">0%</div>
+            </div>
+            <div class="formula-badges" id="formulaBadges">
+                <span class="f-badge cross8">⚡ ไขว้+8 เสนอ <b id="cross8Count">0</b> เลข</span>
+                <span class="f-badge swap">🔄 อักท้าย-สลับ เสนอ <b id="swapCount">0</b> เลข</span>
+                <span class="f-badge stats">📊 สูตรทั้งหมด: <b id="statsCount">0</b></span>
+                <span class="f-badge fusion">🌀 Fusion v7</span>
+            </div>
+            <p class="consensus-note">จำนวนสูตรที่จัดเลขท้าย 2 ตัวนี้เป็นตัวเต็ง — ไม่ใช่โอกาสถูกรางวัล</p>
+        </div>
+
+        <!-- Track Record — สถิติจริงจากการทาย-ตรวจย้อนหลัง -->
+        <div class="bento-item bento-wide glass-card" id="resultTrackRecord">
+            <div class="result-badge cyan-badge">📊 ผลงานจริงย้อนหลังของสูตรนี้</div>
+            <p class="track-summary" id="trackSummary"></p>
+            <p class="consensus-note">ตาราง: เลขที่สูตรนี้ฟันธงไว้ → เลขที่ออกจริง</p>
+            <div class="track-table-wrap">
+                <table class="history-table track-table">
+                    <thead><tr><th>งวด</th><th>ท้าย 2 ตัว</th><th>ท้าย 3 ตัว</th><th>รางวัลที่ 1</th></tr></thead>
+                    <tbody id="trackBody"></tbody>
+                </table>
+            </div>
+            <p class="consensus-note">หวยออกแบบสุ่ม — ไม่มีสูตรใดในโลกทำนายได้แม่นกว่าการเดาสุ่ม ตัวเลขข้างบนคือหลักฐานจริง เล่นเพื่อความสนุก ซื้อเท่าที่ไหวนะคะ 💝</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 4.5: GEMINI AI ANALYSIS ============ -->
+<section class="gemini-section" id="geminiSection">
+    <div class="bento-grid">
+        <div class="bento-item bento-wide glass-card gemini-card">
+            <div class="result-badge gemini-badge">✨ Gemini AI วิเคราะห์ให้คุณแม่</div>
+            <div class="gemini-content" id="geminiContent">
+                <p class="gemini-placeholder">🔮 กดคำนวณเพื่อให้ Gemini AI วิเคราะห์...</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 5: ANALYTICS — Bento Grid ============ -->
+<section class="analytics-section" id="analyticsSection">
+    <div class="section-header">
+        <h2 class="gradient-text-large">📊 AI Data Analytics</h2>
+    </div>
+
+    <div class="bento-grid analytics-bento">
+        <!-- Digit Frequency -->
+        <div class="bento-item bento-wide glass-card">
+            <h4 class="analytics-title">📈 ความถี่ตัวเลข (0-9)</h4>
+            <div id="digitFrequency" class="freq-chart"></div>
+        </div>
+
+        <!-- Hot Numbers -->
+        <div class="bento-item glass-card">
+            <h4 class="analytics-title">🔥 เลขร้อน (Hot)</h4>
+            <div id="hotNumbers" class="number-pills"></div>
+        </div>
+
+        <!-- Cold Numbers -->
+        <div class="bento-item glass-card">
+            <h4 class="analytics-title">❄️ เลขเย็น (Cold)</h4>
+            <div id="coldNumbers" class="number-pills"></div>
+        </div>
+
+        <!-- Digit Sum Trend -->
+        <div class="bento-item bento-wide glass-card">
+            <h4 class="analytics-title">➕ ผลรวมหลัก (Digit Sum Trend)</h4>
+            <div id="digitSums" class="sum-trend"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="cosmic-footer">
+    <div class="footer-heart">💝</div>
+    <p>สร้างด้วยรักให้คุณแม่ — ทำให้สนุกกับการคิดหวย ไม่เหงาอีกต่อไป</p>
+    <p class="footer-warn">⚠️ การทำนายนี้เป็นเพียงการวิเคราะห์ทางสถิติ ไม่ได้รับประกันว่าจะถูกรางวัล</p>
+    <p class="footer-link">ข้อมูลอ้างอิง: <a href="https://www.glo.or.th/home-page" target="_blank" rel="noopener">สำนักงานสลากกินแบ่งรัฐบาล</a></p>
+</footer>
+
+<script src="lotto_engine.js?v=7.0"></script>
+<script src="lottery_predictor.js?v=7.0"></script>
+</body>
+</html>

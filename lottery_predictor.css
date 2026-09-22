@@ -1,0 +1,2148 @@
+/* =====================================================
+   🐱🐶🐦 LottoMoM69 Cute Animal Predictor — CSS
+   Techniques: Glassmorphism, Parallax, Bento Grid,
+   Kinetic Typography, Scrollytelling, Micro-interactions
+   Font: Chonburi (ใหญ่ อ่านง่าย สำหรับคุณแม่)
+   ===================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Chonburi&family=Prompt:wght@300;400;500;600;700;800;900&display=swap');
+
+/* ─── CSS Variables — Pastel Cute Theme ─── */
+:root {
+  --bg-cream: #FFF5F0;
+  --bg-pink: #FFF0F5;
+  --bg-lavender: #F0ECFF;
+  --pastel-pink: #FF8FAB;
+  --pastel-rose: #FF6B8A;
+  --pastel-purple: #C77DFF;
+  --pastel-blue: #7EB8FF;
+  --pastel-mint: #7DDBA3;
+  --pastel-yellow: #FFD97D;
+  --pastel-orange: #FFAB76;
+  --pastel-peach: #FFCBA4;
+  --text-dark: #3D2C2E;
+  --text-med: #6B5658;
+  --text-light: #9B8A8C;
+  --gold: #E8A838;
+  --gold-bright: #F4C463;
+  --heart-red: #FF4D6D;
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.7);
+  --glass-shine: rgba(255, 255, 255, 0.3);
+  --radius-lg: 28px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+  --shadow-soft: 0 8px 32px rgba(195, 125, 155, 0.12);
+  --shadow-glow: 0 4px 20px rgba(255, 107, 138, 0.15);
+}
+
+/* ─── Reset ─── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html {
+  scroll-behavior: smooth;
+  background: #06021a;
+}
+
+body {
+  font-family: 'Prompt', sans-serif;
+  color: #efe6ff;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: transparent !important;
+}
+
+/* ─── Overlay for extra softness ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 36%, rgba(3,1,14,0.30) 0%, rgba(3,1,14,0.55) 55%, rgba(3,1,14,0.74) 100%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ─── WebGL Canvas (now for cute floating animals) ─── */
+#webglCanvas {
+  display: none; /* Disabled - using CSS bg instead */
+}
+
+/* ─── Parallax Floating Layers ─── */
+.parallax-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+.stars-far { z-index: 1; }
+.stars-mid { z-index: 2; }
+.stars-near { z-index: 3; }
+
+.parallax-layer .star {
+  position: absolute;
+  font-size: 20px;
+  animation: floatBounce var(--dur, 4s) ease-in-out infinite alternate;
+  opacity: 0.6;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08));
+}
+.stars-far .star { font-size: 16px; opacity: 0.3; }
+.stars-mid .star { font-size: 22px; opacity: 0.45; }
+.stars-near .star { font-size: 28px; opacity: 0.55; }
+
+@keyframes floatBounce {
+  0% { transform: translateY(0) rotate(-5deg); }
+  100% { transform: translateY(-20px) rotate(5deg); }
+}
+
+/* ─── Cosmic Particles → Floating Hearts/Paws ─── */
+.cosmic-particles {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  overflow: hidden;
+}
+.cosmic-particles .p {
+  position: absolute;
+  animation: floatUp var(--fd, 18s) linear infinite;
+  opacity: 0;
+  font-size: 18px;
+}
+@keyframes floatUp {
+  0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+  8%   { opacity: 0.8; }
+  85%  { opacity: 0.4; }
+  100% { transform: translateY(-5vh) rotate(360deg); opacity: 0; }
+}
+
+/* ─── 💰 Money Rain — เศรษฐีใหม่โปรยเงิน ─── */
+.money-rain {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  overflow: hidden;
+}
+.money-rain .bill {
+  position: absolute;
+  font-size: 28px;
+  animation: moneyFall var(--fall-dur, 12s) linear infinite;
+  opacity: 0;
+  filter: drop-shadow(0 4px 8px rgba(232, 168, 56, 0.3));
+}
+@keyframes moneyFall {
+  0%   { transform: translateY(-8vh) translateX(0) rotate(0deg) scale(1); opacity: 0; }
+  5%   { opacity: 0.85; }
+  25%  { transform: translateY(25vh) translateX(30px) rotate(90deg) scale(1.1); }
+  50%  { transform: translateY(50vh) translateX(-20px) rotate(180deg) scale(0.9); opacity: 0.7; }
+  75%  { transform: translateY(75vh) translateX(40px) rotate(270deg) scale(1.05); opacity: 0.5; }
+  100% { transform: translateY(110vh) translateX(-10px) rotate(360deg) scale(1); opacity: 0; }
+}
+
+/* ─── ✨ Gold Sparkles — ทองคำวิบวับ ─── */
+.gold-sparkles {
+  position: fixed;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  overflow: hidden;
+}
+.gold-sparkles .sparkle {
+  position: absolute;
+  font-size: 14px;
+  animation: sparkleFloat var(--sparkle-dur, 8s) ease-in-out infinite;
+  opacity: 0;
+}
+.gold-sparkles .sparkle.gold-coin {
+  font-size: 22px;
+  filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.6))
+          drop-shadow(0 0 24px rgba(232, 168, 56, 0.3));
+}
+@keyframes sparkleFloat {
+  0%   { transform: translateY(0) scale(0); opacity: 0; }
+  10%  { opacity: 1; transform: scale(1.2); }
+  20%  { opacity: 0.3; transform: scale(0.8); }
+  30%  { opacity: 1; transform: scale(1); }
+  40%  { opacity: 0.4; transform: scale(0.9); }
+  50%  { opacity: 1; transform: translateY(-30px) scale(1.1); }
+  60%  { opacity: 0.3; transform: scale(0.7); }
+  70%  { opacity: 0.9; transform: scale(1.15); }
+  80%  { opacity: 0.5; transform: translateY(-15px) scale(0.85); }
+  90%  { opacity: 0.8; transform: scale(1); }
+  100% { opacity: 0; transform: translateY(10px) scale(0); }
+}
+
+/* ─── 💥 Click Burst — เงินทองพุ่งตอนคลิก ─── */
+.click-burst-particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  font-size: 20px;
+  animation: burstOut 1.1s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.5));
+}
+@keyframes burstOut {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(0.4);
+    opacity: 1;
+  }
+  40% {
+    transform: translate(var(--tx60), var(--ty60)) rotate(200deg) scale(1.3);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) rotate(400deg) scale(0);
+    opacity: 0;
+  }
+}
+
+/* ─── Loading Overlay ─── */
+.loading-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 245, 240, 0.92);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  z-index: 9999;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+}
+.loading-overlay.active { display: flex; }
+
+.loading-blackhole {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+.loading-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid transparent;
+}
+.ring1 {
+  border-top-color: var(--pastel-pink);
+  border-right-color: var(--pastel-purple);
+  animation: spin 1.2s linear infinite;
+}
+.ring2 {
+  inset: 12px;
+  border-bottom-color: var(--pastel-blue);
+  border-left-color: var(--pastel-mint);
+  animation: spin 1.8s linear infinite reverse;
+}
+.ring3 {
+  inset: 24px;
+  border-top-color: var(--pastel-orange);
+  animation: spin 0.8s linear infinite;
+}
+.loading-core {
+  position: absolute;
+  inset: 35px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--bg-cream), var(--bg-pink));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+.loading-core::after { content: '🐱'; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading-text {
+  font-family: 'Chonburi', cursive;
+  font-size: 1.3rem;
+  color: var(--pastel-rose);
+  animation: lpulse 1.5s ease-in-out infinite;
+}
+.loading-sub {
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+@keyframes lpulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+/* ═══════════════════════════════════
+   HERO — Kinetic Typography
+   ═══════════════════════════════════ */
+.hero-section {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.hero-content { perspective: 800px; }
+
+/* Kinetic Typography — Using CHONBURI */
+.kinetic-h1 {
+  font-family: 'Chonburi', cursive;
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  font-weight: 400;
+  letter-spacing: 2px;
+  line-height: 1.4;
+  margin-bottom: 20px;
+}
+
+.kinetic-h1 .char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(60px) rotateX(90deg);
+  animation: charReveal 0.6s cubic-bezier(.16,1,.3,1) forwards, gradShift 5s ease infinite;
+  background: linear-gradient(135deg, var(--pastel-rose), var(--pastel-purple), var(--pastel-blue), var(--pastel-pink));
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 3px 6px rgba(255, 107, 138, 0.3));
+}
+
+@keyframes charReveal {
+  to { opacity: 1; transform: translateY(0) rotateX(0deg); }
+}
+@keyframes gradShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.hero-tagline {
+  font-family: 'Prompt', sans-serif;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  font-weight: 500;
+  color: var(--text-med);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.tagline-word {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: wordFade 0.5s ease forwards;
+}
+.tagline-divider {
+  opacity: 0;
+  animation: wordFade 0.5s ease forwards;
+  animation-delay: 1s;
+  color: var(--pastel-rose);
+}
+
+@keyframes wordFade {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, rgba(255, 143, 171, 0.2), rgba(199, 125, 255, 0.2));
+  border: 2px solid rgba(255, 143, 171, 0.35);
+  border-radius: 50px;
+  padding: 10px 32px;
+  font-family: 'Chonburi', cursive;
+  font-size: 1.1rem;
+  color: var(--heart-red);
+  animation: badgePulse 3s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(255,107,138,0.1); }
+  50% { box-shadow: 0 0 40px rgba(255,107,138,0.25); }
+}
+
+/* Next Draw Date Badge */
+.next-draw-badge {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 8px 24px;
+  background: rgba(126, 184, 255, 0.12);
+  border: 2px solid rgba(126, 184, 255, 0.3);
+  border-radius: 50px;
+  font-family: 'Chonburi', cursive;
+  font-size: 1rem;
+  color: var(--pastel-blue);
+  animation: badgePulse 4s ease-in-out infinite;
+}
+.next-draw-badge span {
+  color: var(--pastel-purple);
+  font-weight: 600;
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-light);
+  font-family: 'Chonburi', cursive;
+  font-size: 0.95rem;
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+.scroll-arrow {
+  width: 22px;
+  height: 22px;
+  border-right: 3px solid var(--pastel-rose);
+  border-bottom: 3px solid var(--pastel-rose);
+  transform: rotate(45deg);
+}
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(10px); opacity: 1; }
+}
+
+/* ═══════════════════════════════════
+   SCROLLYTELLING
+   ═══════════════════════════════════ */
+.scrollytelling-section {
+  position: relative;
+  z-index: 10;
+  padding: 80px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.gradient-text-large {
+  font-family: 'Chonburi', cursive;
+  font-size: clamp(1.6rem, 4vw, 2.5rem);
+  background: linear-gradient(135deg, var(--pastel-rose), var(--pastel-purple), var(--pastel-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 12px;
+}
+
+.section-desc {
+  font-size: 1.1rem;
+  color: var(--text-med);
+  font-weight: 400;
+}
+
+.scroll-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.scroll-step {
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: all 0.8s cubic-bezier(.16,1,.3,1);
+}
+.scroll-step:nth-child(even) {
+  transform: translateX(60px);
+}
+.scroll-step.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.step-card {
+  position: relative;
+  padding: 30px;
+  overflow: hidden;
+}
+
+.step-number {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-family: 'Chonburi', cursive;
+  font-size: 3.5rem;
+  color: rgba(255, 143, 171, 0.08);
+  pointer-events: none;
+}
+
+.step-icon { font-size: 2.5rem; margin-bottom: 10px; }
+
+.step-card h3 {
+  font-family: 'Chonburi', cursive;
+  font-size: 1.4rem;
+  color: var(--pastel-rose);
+  margin-bottom: 10px;
+}
+
+.step-card p {
+  font-size: 1.05rem;
+  color: var(--text-med);
+  line-height: 1.8;
+}
+
+.step-formula {
+  margin-top: 14px;
+  padding: 10px 16px;
+  background: rgba(255, 143, 171, 0.08);
+  border: 2px solid rgba(255, 143, 171, 0.2);
+  border-radius: var(--radius-sm);
+}
+.step-formula code {
+  font-family: 'Chonburi', cursive;
+  font-size: 0.9rem;
+  color: var(--pastel-purple);
+}
+
+/* scroll-reveal */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.7s ease;
+}
+.scroll-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ═══════════════════════════════════
+   GLASSMORPHISM CARDS
+   ═══════════════════════════════════ */
+.glass-card {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(20px) saturate(1.3);
+  backdrop-filter: blur(20px) saturate(1.3);
+  border: 2px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  box-shadow: var(--shadow-soft);
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255,143,171,0.3), transparent);
+}
+
+.glass-card::after {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,143,171,0.06) 0%, transparent 50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+.glass-card:hover::after { opacity: 1; }
+
+.glass-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-glow), 0 12px 40px rgba(199,125,255,0.08);
+}
+
+/* Micro-tilt */
+.micro-tilt {
+  transition: transform 0.15s ease;
+  transform-style: preserve-3d;
+}
+
+/* ═══════════════════════════════════
+   INPUT — Bento Grid
+   ═══════════════════════════════════ */
+.input-section {
+  position: relative;
+  z-index: 10;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 60px 20px 30px;
+}
+
+.input-bento {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.bento-item { padding: 26px; position: relative; }
+
+.bento-featured {
+  grid-column: span 2;
+  border-color: rgba(255, 143, 171, 0.3);
+  background: linear-gradient(135deg, rgba(255,143,171,0.08), var(--glass-bg));
+}
+
+.draw-badge {
+  font-family: 'Chonburi', cursive;
+  font-size: 0.95rem;
+  color: var(--pastel-purple);
+  margin-bottom: 14px;
+}
+.draw-badge.current { color: var(--heart-red); }
+
+.draw-number-badge {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--pastel-pink), var(--pastel-purple));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Chonburi', cursive;
+  font-size: 1rem;
+  color: white;
+}
+
+.input-fields {
+  display: flex;
+  gap: 14px;
+  align-items: flex-end;
+}
+
+.field-group { flex: 1; }
+.field-short { max-width: 140px; }
+
+.field-group label {
+  display: block;
+  font-family: 'Chonburi', cursive;
+  font-size: 0.95rem;
+  color: var(--text-med);
+  margin-bottom: 8px;
+}
+
+.field-hint {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-top: 6px;
+  display: block;
+}
+
+/* ─── Input fields — BIG for elderly ─── */
+.cosmic-input {
+  width: 100%;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 2.5px solid rgba(255, 143, 171, 0.25);
+  border-radius: var(--radius-md);
+  color: var(--heart-red);
+  font-family: 'Chonburi', cursive;
+  font-size: 1.8rem;
+  text-align: center;
+  letter-spacing: 10px;
+  outline: none;
+  transition: all 0.35s ease;
+}
+.cosmic-input::placeholder {
+  color: rgba(155, 138, 140, 0.35);
+  font-size: 1rem;
+  letter-spacing: 4px;
+}
+.cosmic-input:focus {
+  border-color: var(--pastel-rose);
+  box-shadow: 0 0 25px rgba(255,107,138,0.15), inset 0 0 15px rgba(255,143,171,0.05);
+  background: rgba(255, 255, 255, 0.85);
+}
+.cosmic-input:hover:not(:focus) {
+  border-color: rgba(255, 143, 171, 0.4);
+}
+
+.cosmic-input.input-ripple {
+  animation: inputRipple 0.4s ease;
+}
+@keyframes inputRipple {
+  0% { box-shadow: 0 0 0 0 rgba(255,143,171,0.3); }
+  100% { box-shadow: 0 0 0 12px rgba(255,143,171,0); }
+}
+
+/* ─── Action Bar ─── */
+.action-bar {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 40px auto;
+  max-width: 1000px;
+  padding: 0 20px;
+  position: relative;
+  z-index: 10;
+}
+
+.btn-ghost {
+  padding: 14px 32px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 2px solid rgba(199, 125, 255, 0.25);
+  border-radius: 50px;
+  color: var(--text-med);
+  font-family: 'Chonburi', cursive;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.btn-ghost:hover {
+  border-color: var(--pastel-purple);
+  color: var(--pastel-purple);
+  background: rgba(199, 125, 255, 0.08);
+}
+
+.btn-cosmic {
+  position: relative;
+  padding: 18px 52px;
+  font-family: 'Chonburi', cursive;
+  font-size: 1.3rem;
+  color: white;
+  background: linear-gradient(135deg, var(--pastel-rose), var(--pastel-purple), var(--pastel-blue));
+  background-size: 200% 200%;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  animation: btnGlow 3s ease infinite;
+}
+.btn-cosmic:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 30px rgba(255,107,138,0.3), 0 0 60px rgba(199,125,255,0.15);
+}
+.btn-cosmic:active { transform: scale(0.97); }
+
+.btn-shine {
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: linear-gradient(transparent, rgba(255,255,255,0.25), transparent);
+  transform: rotate(45deg);
+  animation: shineSlide 3s ease infinite;
+  pointer-events: none;
+}
+
+@keyframes btnGlow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@keyframes shineSlide {
+  0% { transform: rotate(45deg) translateY(100%); }
+  25%, 100% { transform: rotate(45deg) translateY(-100%); }
+}
+
+.btn-icon { margin-right: 4px; }
+
+.btn-cosmic .ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.35);
+  transform: scale(0);
+  animation: rippleOut 0.6s ease-out;
+  pointer-events: none;
+}
+@keyframes rippleOut {
+  to { transform: scale(4); opacity: 0; }
+}
+
+/* ═══════════════════════════════════
+   RESULTS — Bento Grid
+   ═══════════════════════════════════ */
+.results-section {
+  display: none;
+  position: relative;
+  z-index: 10;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  animation: fadeUp 0.8s ease;
+}
+.results-section.show { display: block; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.results-bento {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.bento-wide { grid-column: span 2; }
+
+.result-card { padding: 30px; }
+
+.result-badge {
+  font-family: 'Chonburi', cursive;
+  font-size: 1.1rem;
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid rgba(255,143,171,0.12);
+}
+.gold-badge { color: var(--gold); }
+.pink-badge { color: var(--pastel-rose); }
+.cyan-badge { color: var(--pastel-blue); }
+.purple-badge { color: var(--pastel-purple); }
+
+.result-sets {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.result-set { text-align: center; }
+
+.set-label {
+  font-family: 'Chonburi', cursive;
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-bottom: 10px;
+}
+
+.number-display {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.number-digit {
+  width: 52px;
+  height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Chonburi', cursive;
+  font-size: 1.8rem;
+  border-radius: var(--radius-sm);
+  opacity: 0;
+  transform: rotateY(90deg) scale(0.5);
+  animation: digitFlip 0.5s cubic-bezier(.16,1,.3,1) forwards;
+}
+
+.number-digit.gold {
+  background: linear-gradient(135deg, rgba(232,168,56,0.12), rgba(244,196,99,0.08));
+  border: 2px solid rgba(232,168,56,0.35);
+  color: var(--gold);
+}
+.number-digit.pink {
+  background: linear-gradient(135deg, rgba(255,107,138,0.12), rgba(255,143,171,0.08));
+  border: 2px solid rgba(255,107,138,0.35);
+  color: var(--pastel-rose);
+}
+.number-digit.cyan {
+  background: linear-gradient(135deg, rgba(126,184,255,0.12), rgba(126,184,255,0.08));
+  border: 2px solid rgba(126,184,255,0.35);
+  color: var(--pastel-blue);
+}
+
+@keyframes digitFlip {
+  0%  { opacity: 0; transform: rotateY(90deg) scale(0.5); }
+  55% { transform: rotateY(-8deg) scale(1.08); }
+  100% { opacity: 1; transform: rotateY(0deg) scale(1); }
+}
+
+/* ─── Confidence Ring ─── */
+.confidence-ring-container {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  margin: 0 auto 14px;
+}
+.confidence-ring { width: 100%; height: 100%; transform: rotate(-90deg); }
+.confidence-bg {
+  fill: none;
+  stroke: rgba(255,143,171,0.1);
+  stroke-width: 6;
+}
+.confidence-progress {
+  fill: none;
+  stroke: url(#confGrad);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 326.73;
+  stroke-dashoffset: 326.73;
+  transition: stroke-dashoffset 1.5s ease;
+}
+.confidence-percent {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Chonburi', cursive;
+  font-size: 1.8rem;
+  color: var(--pastel-rose);
+}
+
+/* ─── Formula Badges ─── */
+.formula-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 12px;
+}
+.f-badge {
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-family: 'Chonburi', cursive;
+  font-size: 0.78rem;
+}
+.f-badge.cross8 { background: rgba(255,171,118,0.15); border: 2px solid rgba(255,171,118,0.3); color: var(--pastel-orange); }
+.f-badge.swap { background: rgba(255,107,138,0.15); border: 2px solid rgba(255,107,138,0.3); color: var(--pastel-rose); }
+.f-badge.stats { background: rgba(126,184,255,0.15); border: 2px solid rgba(126,184,255,0.3); color: var(--pastel-blue); }
+.f-badge.fusion { background: linear-gradient(135deg, rgba(199,125,255,0.15), rgba(126,184,255,0.15)); border: 2px solid rgba(199,125,255,0.3); color: var(--pastel-purple); }
+
+/* ═══════════════════════════════════
+   GEMINI AI SECTION
+   ═══════════════════════════════════ */
+.gemini-section {
+  display: none;
+  position: relative;
+  z-index: 10;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px 20px 10px;
+  animation: fadeUp 0.8s ease;
+}
+.gemini-section.show { display: block; }
+
+.gemini-card {
+  border-color: rgba(66, 133, 244, 0.3) !important;
+  background: linear-gradient(135deg, rgba(66, 133, 244, 0.05), rgba(234, 67, 53, 0.03), var(--glass-bg)) !important;
+}
+
+.gemini-badge {
+  color: #4285F4 !important;
+  background: linear-gradient(135deg, #4285F4, #EA4335, #FBBC04, #34A853);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 1.2rem !important;
+}
+
+.gemini-content {
+  padding: 10px 6px;
+  line-height: 2;
+  font-size: 1.1rem;
+  color: var(--text-dark);
+}
+.gemini-content p {
+  margin-bottom: 8px;
+}
+.gemini-content.gemini-loaded {
+  animation: fadeUp 0.6s ease;
+}
+.gemini-placeholder {
+  color: var(--text-light);
+  font-style: italic;
+  text-align: center;
+}
+
+/* Fusion AI Fallback — Premium Card */
+.gemini-fallback {
+  text-align: center;
+  padding: 16px 8px;
+}
+.gemini-fallback-title {
+  font-family: 'Chonburi', cursive;
+  font-size: 1.25rem;
+  background: linear-gradient(135deg, var(--pastel-rose), var(--pastel-purple), var(--pastel-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 12px !important;
+  animation: gradShift 4s ease infinite;
+  background-size: 300% 300%;
+}
+.gemini-fallback-text {
+  font-size: 1rem;
+  color: var(--text-med);
+  line-height: 1.9;
+  margin-bottom: 12px !important;
+}
+.gemini-fallback-note {
+  font-size: 0.88rem;
+  color: var(--text-light);
+  font-style: italic;
+  opacity: 0.8;
+  margin-bottom: 0 !important;
+}
+
+/* Shimmer effect for result cards */
+.result-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation: shimmer 3s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+@keyframes shimmer {
+  0% { left: -100%; }
+  50%, 100% { left: 150%; }
+}
+
+/* ═══════════════════════════════════
+   ANALYTICS — Bento Grid
+   ═══════════════════════════════════ */
+.analytics-section {
+  display: none;
+  position: relative;
+  z-index: 10;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px 20px 60px;
+  animation: fadeUp 0.6s ease;
+}
+.analytics-section.show { display: block; }
+
+.analytics-bento {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.analytics-title {
+  font-family: 'Chonburi', cursive;
+  font-size: 1rem;
+  color: var(--pastel-purple);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Frequency Chart */
+.freq-chart .freq-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 7px;
+}
+.freq-row .digit-label {
+  font-family: 'Chonburi', cursive;
+  font-size: 1rem;
+  color: var(--text-med);
+  min-width: 22px;
+  text-align: right;
+}
+.freq-row .bar-track {
+  flex: 1;
+  height: 12px;
+  background: rgba(255,143,171,0.08);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.freq-row .bar-fill {
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--pastel-pink), var(--pastel-purple));
+  transition: width 1.2s cubic-bezier(.16,1,.3,1);
+  width: 0%;
+}
+.freq-row .count {
+  font-family: 'Chonburi', cursive;
+  font-size: 0.9rem;
+  color: var(--text-med);
+  min-width: 26px;
+}
+
+/* Number Pills */
+.number-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.pill {
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-family: 'Chonburi', cursive;
+  font-size: 1rem;
+}
+.pill.hot {
+  background: rgba(255, 171, 118, 0.15);
+  border: 2px solid rgba(255, 171, 118, 0.3);
+  color: var(--pastel-orange);
+}
+.pill.cold {
+  background: rgba(126, 184, 255, 0.15);
+  border: 2px solid rgba(126, 184, 255, 0.3);
+  color: var(--pastel-blue);
+}
+
+/* Sum Trend */
+.sum-trend {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.sum-item {
+  font-family: 'Chonburi', cursive;
+  font-size: 1rem;
+  color: var(--pastel-rose);
+}
+.sum-item span { color: var(--text-med); font-size: 0.9rem; }
+
+/* ═══════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════ */
+.cosmic-footer {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 50px 20px;
+  color: var(--text-light);
+  font-size: 0.95rem;
+  line-height: 2;
+}
+.footer-heart {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  animation: heartBeat 2s ease-in-out infinite;
+}
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.25); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.15); }
+  60% { transform: scale(1); }
+}
+.footer-warn { margin-top: 10px; }
+.cosmic-footer a, .glo-link {
+  color: var(--pastel-purple);
+  text-decoration: none;
+  transition: color 0.3s;
+  font-weight: 600;
+}
+.cosmic-footer a:hover, .glo-link:hover { color: var(--pastel-rose); }
+
+/* ═══════════════════════════════════
+   CUMULATIVE COUNTER
+   ═══════════════════════════════════ */
+.cumulative-counter {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 28px;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 10;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.counter-icon { font-size: 2rem; }
+.counter-info { flex: 1; }
+.counter-label {
+  font-family: 'Chonburi', cursive;
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+.counter-value {
+  font-family: 'Chonburi', cursive;
+  font-size: 1.5rem;
+  background: linear-gradient(135deg, var(--pastel-rose), var(--pastel-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.counter-max {
+  font-size: 0.85rem;
+  -webkit-text-fill-color: var(--text-light);
+}
+.btn-clear {
+  padding: 8px 16px;
+  border: 2px solid rgba(255, 107, 138, 0.25);
+  background: rgba(255, 107, 138, 0.08);
+  border-radius: 12px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.btn-clear:hover {
+  border-color: var(--heart-red);
+  background: rgba(255, 107, 138, 0.15);
+  transform: scale(1.1);
+}
+
+/* ═══════════════════════════════════
+   INPUT ACTIONS (Save + Example)
+   ═══════════════════════════════════ */
+.input-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.btn-save {
+  padding: 14px 36px;
+  font-family: 'Chonburi', cursive;
+  font-size: 1.15rem;
+  color: white;
+  background: linear-gradient(135deg, var(--pastel-mint), var(--pastel-blue));
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 20px rgba(125, 219, 163, 0.25);
+}
+.btn-save:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 30px rgba(125, 219, 163, 0.35);
+}
+.btn-save:active { transform: scale(0.97); }
+
+/* GLO Auto-Fetch Button */
+.btn-glo {
+  padding: 14px 32px;
+  font-family: 'Chonburi', cursive;
+  font-size: 1.05rem;
+  color: white;
+  background: linear-gradient(135deg, #4285F4, #34A853);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 20px rgba(66, 133, 244, 0.25);
+}
+.btn-glo:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 30px rgba(66, 133, 244, 0.35);
+}
+.btn-glo:active { transform: scale(0.97); }
+
+/* Date Input */
+.date-input {
+  font-size: 1.3rem !important;
+  letter-spacing: 3px !important;
+}
+
+/* ═══════════════════════════════════
+   HISTORY TABLE
+   ═══════════════════════════════════ */
+.history-section {
+  position: relative;
+  z-index: 10;
+  max-width: 1000px;
+  margin: 24px auto;
+  padding: 24px;
+}
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.history-header h3 {
+  font-family: 'Chonburi', cursive;
+  font-size: 1.15rem;
+  color: var(--pastel-purple);
+}
+.history-count {
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+.history-table-wrap {
+  max-height: 400px;
+  overflow-y: auto;
+  border-radius: var(--radius-sm);
+}
+.history-table-wrap::-webkit-scrollbar {
+  width: 6px;
+}
+.history-table-wrap::-webkit-scrollbar-thumb {
+  background: rgba(199, 125, 255, 0.3);
+  border-radius: 3px;
+}
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Prompt', sans-serif;
+}
+.history-table thead th {
+  position: sticky;
+  top: 0;
+  background: rgba(255, 240, 245, 0.95);
+  backdrop-filter: blur(8px);
+  font-family: 'Chonburi', cursive;
+  font-size: 0.85rem;
+  color: var(--text-med);
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 2px solid rgba(255, 143, 171, 0.15);
+  z-index: 2;
+}
+.history-row {
+  animation: fadeUp 0.4s ease forwards;
+  opacity: 0;
+}
+.history-row td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255, 143, 171, 0.08);
+  font-size: 0.95rem;
+}
+.history-row:hover {
+  background: rgba(255, 143, 171, 0.04);
+}
+.row-num {
+  font-family: 'Chonburi', cursive;
+  color: var(--text-light);
+  font-size: 0.85rem;
+  width: 36px;
+}
+.row-date { color: var(--text-med); }
+.first-num {
+  font-family: 'Chonburi', cursive;
+  color: var(--gold);
+  font-size: 1.05rem;
+  letter-spacing: 3px;
+}
+.last2-num {
+  font-family: 'Chonburi', cursive;
+  color: var(--pastel-blue);
+  font-size: 1.05rem;
+  letter-spacing: 3px;
+}
+.btn-delete-row {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--text-light);
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+.btn-delete-row:hover {
+  color: var(--heart-red);
+  background: rgba(255, 107, 138, 0.1);
+}
+.empty-row td {
+  text-align: center;
+  padding: 30px;
+  color: var(--text-light);
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════
+   ฟันธง BADGE & RESULTS STYLING
+   ═══════════════════════════════════ */
+.fanthong-card {
+  border-color: rgba(232, 168, 56, 0.3) !important;
+  background: linear-gradient(135deg, rgba(232, 168, 56, 0.06), var(--glass-bg)) !important;
+}
+.fanthong-badge {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  font-family: 'Chonburi', cursive;
+  font-size: 1rem;
+  color: var(--gold);
+  animation: fanthongPulse 2s ease-in-out infinite;
+  text-shadow: 0 0 12px rgba(232, 168, 56, 0.4);
+}
+@keyframes fanthongPulse {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+.fanthong-sub {
+  color: var(--pastel-rose) !important;
+  font-family: 'Chonburi', cursive;
+}
+.fanthong-set {
+  text-align: center;
+}
+.fanthong-prob {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--pastel-rose, #ff8fab);
+  letter-spacing: 0.2px;
+  opacity: 0.95;
+}
+.fanthong-prob b {
+  color: #ffd56b;
+  font-weight: 700;
+}
+.fanthong-number {
+  gap: 8px !important;
+}
+.fanthong-number .number-digit {
+  width: 58px;
+  height: 74px;
+  font-size: 2.1rem;
+}
+.fanthong-number .number-digit.gold {
+  border-width: 3px;
+  box-shadow: 0 4px 20px rgba(232, 168, 56, 0.2);
+}
+.fanthong-number .number-digit.pink {
+  border-width: 3px;
+  box-shadow: 0 4px 20px rgba(255, 107, 138, 0.2);
+}
+.fanthong-number .number-digit.cyan {
+  border-width: 3px;
+  box-shadow: 0 4px 20px rgba(126, 184, 255, 0.2);
+}
+
+/* ═══════════════════════════════════
+   RESPONSIVE — Tablet, Mobile, Small Mobile
+   ═══════════════════════════════════ */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .input-bento, .results-bento, .analytics-bento {
+    gap: 14px;
+  }
+  .bento-item { padding: 22px; }
+  .cosmic-input { font-size: 1.6rem; letter-spacing: 8px; }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .input-bento, .results-bento, .analytics-bento {
+    grid-template-columns: 1fr;
+  }
+  .bento-featured, .bento-wide { grid-column: span 1; }
+  .input-fields { flex-direction: column; }
+  .field-short { max-width: 100%; }
+  .number-digit { width: 44px; height: 56px; font-size: 1.5rem; }
+  .result-sets { gap: 20px; }
+  .action-bar {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .btn-cosmic {
+    width: 100%;
+    max-width: 380px;
+    padding: 16px 32px;
+    font-size: 1.2rem;
+  }
+  .btn-ghost {
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+  }
+  .btn-save {
+    width: 100%;
+    max-width: 380px;
+  }
+  .input-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  .cumulative-counter { padding: 14px 20px; }
+  .counter-value { font-size: 1.3rem; }
+  .history-section { padding: 18px; margin: 16px auto; }
+  .history-table thead th { font-size: 0.78rem; padding: 8px; }
+  .history-row td { padding: 8px; font-size: 0.88rem; }
+  .first-num, .last2-num { font-size: 0.95rem; letter-spacing: 2px; }
+  .fanthong-number .number-digit { width: 46px; height: 60px; font-size: 1.6rem; }
+  .fanthong-badge { font-size: 0.85rem; }
+  .cosmic-input { font-size: 1.5rem; letter-spacing: 7px; padding: 14px 16px; }
+  .step-card { padding: 24px; }
+  .scroll-steps { gap: 20px; }
+  .kinetic-h1 { font-size: clamp(2rem, 6vw, 3.5rem); }
+  .hero-badge { font-size: 0.95rem; padding: 8px 24px; }
+  .gradient-text-large { font-size: clamp(1.3rem, 3.5vw, 2rem); }
+  .hero-section { padding: 30px 16px; }
+  .input-section { padding: 40px 16px 20px; }
+  .scrollytelling-section { padding: 60px 16px; }
+  .confidence-ring-container { width: 120px; height: 120px; }
+  .confidence-percent { font-size: 1.6rem; }
+  .result-badge { font-size: 1rem; }
+  .analytics-bento { grid-template-columns: 1fr; }
+  .number-display { gap: 5px; }
+  .formula-badges { gap: 6px; }
+  .f-badge { font-size: 0.7rem; padding: 5px 10px; }
+  .step-number { font-size: 2.8rem; }
+  .step-icon { font-size: 2rem; }
+  .cosmic-footer { padding: 30px 16px; font-size: 0.9rem; }
+}
+
+/* Small Mobile (สำหรับคุณแม่ — จอเล็กแต่ยังอ่านง่าย) */
+@media (max-width: 480px) {
+  .hero-section { min-height: 85vh; padding: 20px 12px; }
+  .kinetic-h1 { font-size: clamp(1.8rem, 8vw, 2.5rem); line-height: 1.5; }
+  .hero-tagline { font-size: 0.9rem; gap: 6px; }
+  .number-digit { width: 38px; height: 50px; font-size: 1.3rem; border-radius: 10px; }
+  .fanthong-number .number-digit { width: 40px; height: 54px; font-size: 1.4rem; }
+  .bento-item { padding: 18px; border-radius: var(--radius-md); }
+  .cosmic-input {
+    font-size: 1.4rem;
+    letter-spacing: 5px;
+    padding: 14px 14px;
+  }
+  .confidence-ring-container { width: 100px; height: 100px; }
+  .confidence-percent { font-size: 1.4rem; }
+  .btn-cosmic { padding: 14px 20px; font-size: 1.1rem; }
+  .field-group label { font-size: 0.85rem; }
+  .draw-badge { font-size: 0.85rem; }
+  .result-badge { font-size: 0.9rem; }
+  .analytics-title { font-size: 0.9rem; }
+  .scroll-indicator { font-size: 0.85rem; bottom: 25px; }
+  .step-card h3 { font-size: 1.2rem; }
+  .step-card p { font-size: 0.95rem; }
+  .section-desc { font-size: 0.95rem; }
+  .glass-card { border-radius: var(--radius-md); }
+  .input-section { padding: 30px 12px 15px; }
+  .results-section { padding: 30px 12px; }
+  .analytics-section { padding: 15px 12px 40px; }
+}
+
+/* Tiny screens (SE, old phones) */
+@media (max-width: 360px) {
+  .kinetic-h1 { font-size: 1.6rem; }
+  .number-digit { width: 32px; height: 44px; font-size: 1.1rem; }
+  .cosmic-input { font-size: 1.2rem; letter-spacing: 3px; padding: 12px 10px; }
+  .btn-cosmic { font-size: 1rem; padding: 12px 16px; }
+  .bento-item { padding: 14px; }
+  .confidence-ring-container { width: 90px; height: 90px; }
+  .hero-badge { font-size: 0.85rem; padding: 6px 18px; }
+}
+
+/* Landscape mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero-section { min-height: 100vh; padding: 15px; }
+  .scroll-indicator { display: none; }
+}
+
+/* ─── Hero Logo ─── */
+.hero-logo {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+  margin-bottom: 20px;
+  animation: floatLogo 4s ease-in-out infinite;
+  filter: drop-shadow(0 8px 24px rgba(199, 125, 255, 0.4))
+          drop-shadow(0 0 40px rgba(255, 143, 171, 0.2));
+  transition: transform 0.4s ease;
+}
+.hero-logo:hover {
+  transform: scale(1.1) rotate(5deg);
+}
+@keyframes floatLogo {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@media (max-width: 768px) {
+  .hero-logo { width: 120px; height: 120px; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   🌌 COSMIC GALAXY THEME — หลุมดำดูดกลืน + บิ๊กแบงระเบิด
+   (วางท้ายไฟล์เพื่อ override ธีมพาสเทลเดิม ให้กลายเป็นกาลจักรวาล)
+   ═══════════════════════════════════════════════════════ */
+
+/* การ์ดแก้วฝ้า (frosted glass) ลอยอยู่ในอวกาศ — อ่านง่ายบนพื้นมืด */
+:root {
+  --glass-bg: rgba(255, 252, 255, 0.92);
+  --glass-border: rgba(199, 125, 255, 0.55);
+  --glass-shine: rgba(255, 255, 255, 0.5);
+  --shadow-soft: 0 10px 40px rgba(120, 40, 200, 0.30);
+  --shadow-glow: 0 4px 26px rgba(170, 90, 255, 0.35);
+}
+
+/* พื้นหลังห้วงอวกาศลึก (เป็น fallback ถ้า canvas โหลดไม่ทัน) */
+/* gradient สำรองไว้ที่ html (วาดเป็นพื้นล่างสุด) — galaxy-bg.jpg จะโผล่ทับ */
+html {
+  background:
+    radial-gradient(ellipse at 50% 32%, #2a0f5c 0%, #14072e 42%, #070317 72%, #03010c 100%) fixed !important;
+}
+/* body ต้องโปร่งใส ไม่งั้นจะบังรูปพื้นหลัง .galaxy-bg (z-index ติดลบ) */
+body {
+  background: transparent !important;
+  color: #2a1b3d;
+}
+/* vignette อยู่หลังเนื้อหา (z-index ติดลบ) ไม่บังการ์ด */
+body::before {
+  z-index: -1 !important;
+  background: radial-gradient(ellipse at 50% 38%, transparent 38%, rgba(0, 0, 0, 0.45) 100%) !important;
+}
+
+/* Canvas หลุมดำ — เต็มจอ อยู่ "หลัง" เนื้อหาทั้งหมด (z-index: -1)
+   เพื่อให้ทุก section ที่เป็น static flow แสดงทับ canvas ได้ */
+#webglCanvas {
+  display: block !important;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* การ์ดแก้ว — เพิ่มเบลอ + ขอบเรืองแสงม่วง */
+.glass-card {
+  backdrop-filter: blur(16px) saturate(1.15);
+  -webkit-backdrop-filter: blur(16px) saturate(1.15);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 10px 44px rgba(110, 40, 200, 0.28),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.45),
+              0 0 60px rgba(150, 80, 255, 0.10);
+}
+
+/* ตัวอักษรที่ลอยอยู่บนอวกาศ (นอกการ์ด) → เปลี่ยนเป็นสีสว่าง */
+.hero-tagline { color: #ddd0ff !important; text-shadow: 0 0 18px rgba(170,110,255,0.6); }
+.section-desc { color: #cdbcf2 !important; }
+.scroll-indicator { color: #e3d7ff !important; }
+.cosmic-footer, .cosmic-footer p, .footer-warn, .footer-credit { color: #b6a6dd !important; }
+.cosmic-footer a, .glo-link { color: #ffd56b !important; }
+
+/* ป้าย hero เรืองแสงนีออน */
+.hero-badge {
+  box-shadow: 0 0 30px rgba(255, 90, 140, 0.5), 0 4px 20px rgba(170, 90, 255, 0.4);
+}
+
+/* หัวข้อใหญ่ — เพิ่มแสงเรืองจักรวาล */
+.kinetic-h1 .char { filter: drop-shadow(0 0 16px rgba(180, 120, 255, 0.55)); }
+.gradient-text-large { filter: drop-shadow(0 0 14px rgba(170, 100, 255, 0.45)); }
+
+/* Loading overlay → ธีมหลุมดำมืด */
+.loading-overlay { background: rgba(6, 2, 18, 0.94) !important; }
+.loading-sub { color: #b6a6dd !important; }
+
+/* 💥 Big Bang Flash — แสงระเบิดจากใจกลางหลุมดำ */
+.bigbang-flash {
+  position: fixed;
+  left: 50%;
+  top: 42%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 46vmax;
+  height: 46vmax;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  z-index: -1;
+  background: radial-gradient(circle,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 224, 150, 0.55) 16%,
+    rgba(255, 120, 200, 0.35) 36%,
+    rgba(150, 110, 255, 0.22) 56%,
+    transparent 72%);
+  mix-blend-mode: screen;
+}
+.bigbang-flash.boom { animation: bigbangBoom 1.15s cubic-bezier(.22,1,.36,1); }
+@keyframes bigbangBoom {
+  0%   { transform: translate(-50%, -50%) scale(0);   opacity: 1; }
+  55%  { opacity: 0.75; }
+  100% { transform: translate(-50%, -50%) scale(1.35); opacity: 0; }
+}
+
+/* อีโมจิตกแต่งทั้งหมด → ย้ายไปอยู่ "หลัง" เนื้อหา ให้การ์ดสะอาด อ่านง่าย
+   (ทุกเอฟเฟกต์กาลจักรวาลเป็นพื้นหลังตามที่ขอ) */
+.parallax-layer,
+.cosmic-particles,
+.money-rain,
+.gold-sparkles { z-index: -1 !important; }
+
+/* อนุภาคอีโมจิ (ดาว) — เรืองแสงนวลแบบดาวไกล */
+.parallax-layer .star,
+.cosmic-particles .p {
+  filter: drop-shadow(0 0 6px rgba(180, 140, 255, 0.7));
+}
+
+/* คลิกแล้วเกิดประกายดาวระเบิด */
+.click-burst-particle { filter: drop-shadow(0 0 8px rgba(255, 220, 150, 0.8)); }
+
+@media (max-width: 768px) {
+  .bigbang-flash { top: 40%; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   ✨ HIGH-CONTRAST FONTS — ตัวอักษรตัดกับพื้นหลังชัดเจน อ่านง่าย สวย
+   ═══════════════════════════════════════════════════════ */
+
+/* การ์ดทึบขึ้น ตัวหนังสือไม่จมพื้นมืด */
+:root { --glass-bg: rgba(255, 253, 255, 0.96); }
+
+/* การ์ด Gemini — พื้นทึบชัด ตัวหนังสือตัดกับพื้น */
+.gemini-card {
+  background: linear-gradient(135deg, rgba(124, 92, 255, 0.10), rgba(255, 255, 255, 0.97)) !important;
+  border: 1.5px solid rgba(124, 58, 237, 0.5) !important;
+}
+.gemini-content,
+.gemini-content p {
+  color: #2a1450 !important;       /* ม่วงเข้มเกือบดำ — ตัดกับพื้นขาวชัด */
+  font-weight: 500 !important;
+  text-shadow: none !important;
+}
+.gemini-content strong,
+.gemini-content b {
+  color: #7c1fd0 !important;       /* ตัวหนาเป็นม่วงสด เด่นชัด */
+  font-weight: 800 !important;
+}
+.gemini-fallback-text { color: #3a2358 !important; font-weight: 500 !important; }
+.gemini-fallback-note { color: #5a4a72 !important; opacity: 1 !important; }
+
+/* ตัวอักษรในการ์ดทั่วไป — เข้มชัด อ่านง่าย */
+.glass-card { color: #2a1842; }
+.analytics-title,
+.result-badge,
+.history-table th,
+.history-table td,
+.stat-label,
+.input-label,
+label { text-shadow: none; }
+
+/* ตารางประวัติ — ตัวเลขเข้มชัดบนการ์ดขาว */
+.history-table td,
+.row-first .first-num,
+.row-last2 .last2-num { color: #241038 !important; font-weight: 600; }
+
+/* ป้ายคำอธิบายใต้เลขฟันธง — เด่นขึ้น */
+.fanthong-prob { color: #ff5fa2 !important; font-weight: 600; }
+.fanthong-prob b { color: #ffb800; text-shadow: 0 0 8px rgba(255, 184, 0, 0.4); }
+
+/* ตัวอักษรบนพื้นอวกาศ (นอกการ์ด) — สว่างนวล อ่านชัดบนพื้นมืด */
+.hero-tagline, .scroll-indicator { color: #efe7ff !important; }
+.section-desc { color: #e2d4ff !important; font-weight: 500; }
+
+/* ═══════════════════════════════════════════════════════
+   🌌 GALAXY IMAGE BACKGROUND + HEADER + REVEAL + ACCESSIBILITY
+   ═══════════════════════════════════════════════════════ */
+
+/* Canvas = สนามดาววิ่งผ่าน (warp starfield) ทับบนรูป → เหมือนบินในอวกาศ */
+#webglCanvas {
+  display: block !important;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* พื้นหลัง galaxy-bg.jpg เต็มจอ ซูมเข้าช้าๆ (Ken Burns) = พุ่งไปข้างหน้าในอวกาศ */
+.galaxy-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-color: #06021a;
+  background-image:
+    url('images/galaxy-bg.jpg'),
+    radial-gradient(ellipse at 50% 40%, #3a1570 0%, #1a0940 45%, #08031e 75%, #03010c 100%);
+  background-size: cover, cover;
+  background-position: center 42%, center;
+  background-repeat: no-repeat, no-repeat;
+  opacity: 0.98;
+  transform-origin: 50% 44%;
+  animation: galaxyFly 38s ease-in-out infinite;
+  will-change: transform;
+}
+@keyframes galaxySpin { to { transform: rotate(360deg); } }
+/* ซูมเข้า/ออก + แพนเบาๆ = ความรู้สึกเคลื่อนที่ในอวกาศ */
+@keyframes galaxyFly {
+  0%   { transform: scale(1.05) translate(0, 0); }
+  50%  { transform: scale(1.22) translate(-1%, -1.5%); }
+  100% { transform: scale(1.05) translate(0, 0); }
+}
+@media (prefers-reduced-motion: reduce) { .galaxy-bg { animation: none; } #webglCanvas { display: none !important; } }
+/* ม่านมืดทับ (ไม่หมุน) ให้ตัวอักษรอ่านชัดบนพื้นหลังหลุมดำที่สว่าง */
+body::before {
+  background: radial-gradient(ellipse at 50% 36%, rgba(3,1,14,0.30) 0%, rgba(3,1,14,0.55) 55%, rgba(3,1,14,0.74) 100%) !important;
+}
+@media (prefers-reduced-motion: reduce) { .galaxy-bg { animation: none; } }
+
+/* 🛩️ HEADER — โลโก้ AEROTHAI ติดบนสุด */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 14px 28px;
+  background: rgba(10, 5, 30, 0.82);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  border-bottom: 2px solid rgba(124, 90, 255, 0.65);
+  box-shadow: 0 6px 38px rgba(80, 30, 170, 0.55);
+}
+.header-logo {
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #0a0420;
+  padding: 3px;
+  border: 3px solid rgba(150, 120, 255, 0.75);
+  box-shadow: 0 0 26px rgba(120, 180, 255, 0.8), 0 0 6px rgba(160,120,255,0.7);
+  animation: logoGlow 3s ease-in-out infinite;
+}
+@keyframes logoGlow {
+  0%,100% { box-shadow: 0 0 20px rgba(120,180,255,0.7); }
+  50%     { box-shadow: 0 0 38px rgba(180,90,255,0.98); }
+}
+.header-titles { display: flex; flex-direction: column; line-height: 1.25; }
+.header-brand {
+  font-family: 'Chonburi', cursive;
+  font-size: 2.1rem;
+  background: linear-gradient(120deg, #ffd56b, #ff7ac0, #b08cff, #8ae2ff);
+  background-size: 250% 250%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradShift 5s ease infinite;
+}
+.header-sub { font-size: 1.05rem; color: #e5dbff; font-weight: 600; letter-spacing: 0.5px; }
+.header-badge {
+  margin-left: auto;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #fff;
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  box-shadow: 0 0 22px rgba(236, 72, 153, 0.6);
+  white-space: nowrap;
+}
+
+/* 🕳️ REVEAL BLACK HOLE — หมุนอยู่หลังเลขตอนผลออก */
+.results-section { position: relative; }
+.results-section::before {
+  content: '';
+  position: absolute;
+  top: -90px;
+  left: 50%;
+  width: 560px;
+  height: 560px;
+  margin-left: -280px;
+  max-width: 92vw;
+  background: url('images/blackhole-spin.png') center / contain no-repeat;
+  opacity: 0;
+  transition: opacity 1.3s ease;
+  animation: galaxySpin 24s linear infinite;
+  z-index: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 0 55px rgba(255, 170, 70, 0.5));
+}
+.results-section.show::before { opacity: 0.5; }
+.results-bento { position: relative; z-index: 1; }
+
+/* 👵 ACCESSIBILITY — คนสูงวัย สายตาฝ้าฟาง: ตัวใหญ่ คอนทราสต์สูง ปุ่มกดง่าย */
+html { font-size: 17.5px; }
+.cosmic-button, button, .btn, input.cosmic-input {
+  min-height: 54px;
+  font-size: 1.08rem !important;
+}
+.cosmic-input { font-size: 1.15rem !important; letter-spacing: 1px; }
+.fanthong-prob { font-size: 0.98rem; }
+.result-badge { font-size: 1.05rem !important; font-weight: 700 !important; }
+.fanthong-number .number-digit { box-shadow: 0 6px 26px rgba(0,0,0,0.25); }
+
+/* 📱 RESPONSIVE — ลงตัวทุกจอ */
+@media (max-width: 768px) {
+  html { font-size: 16px; }
+  .app-header { padding: 10px 18px; gap: 14px; }
+  .header-logo { width: 65px; height: 65px; border-width: 2.5px; }
+  .header-brand { font-size: 1.65rem; }
+  .header-sub { font-size: 0.85rem; font-weight: 600; }
+  .header-badge { font-size: 0.82rem; padding: 6px 12px; }
+  .results-section::before { width: 360px; height: 360px; margin-left: -180px; top: -40px; }
+  .fanthong-number .number-digit { width: 46px; height: 60px; font-size: 1.7rem; }
+}
+@media (max-width: 420px) {
+  .app-header { padding: 8px 12px; gap: 10px; }
+  .header-logo { width: 55px; height: 55px; border-width: 2px; }
+  .header-brand { font-size: 1.35rem; }
+  .header-sub { font-size: 0.75rem; display: block; }
+  .header-badge { font-size: 0.75rem; padding: 4px 8px; }
+  .fanthong-number .number-digit { width: 40px; height: 54px; font-size: 1.5rem; }
+}
+
+/* โลโก้พ่อมดมังกร ใน hero → ใหญ่ ครอบวงกลม ขอบเรืองแสงม่วง ดูขลัง */
+.hero-logo {
+  width: 220px !important;
+  height: 220px !important;
+  object-fit: cover !important;
+  border-radius: 50%;
+  background: #0a0420;
+  padding: 0;
+  border: 3px solid rgba(160, 110, 255, 0.65);
+  box-shadow: 0 0 60px rgba(140, 90, 255, 0.65),
+              0 0 120px rgba(120, 180, 255, 0.4),
+              0 8px 34px rgba(0, 0, 0, 0.5);
+}
+@media (max-width: 768px) { .hero-logo { width: 160px !important; height: 160px !important; } }
+
+/* หลุมดำหมุนตอนเลขออก — หลังตัวเลข */
+.results-section.show::before { opacity: 0.5; }
+
+/* ═══════════════════════════════════════════════════════
+   ✨🌌 GALAXY GLOSSY DASHBOARD — การ์ดแก้วกาแล็กซีเงาวาว + ตัวอักษรนีออน
+   ═══════════════════════════════════════════════════════ */
+
+/* การ์ดกระจกแก้วกาแล็กซี เข้ม เงาวาว ขอบเรืองแสง (แสงวาวอยู่ใน background เลย) */
+.glass-card {
+  background:
+    linear-gradient(to bottom, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.03) 38%, transparent 60%),
+    linear-gradient(160deg, rgba(78,42,140,0.52) 0%, rgba(34,18,72,0.62) 55%, rgba(18,9,44,0.68) 100%) !important;
+  border: 1.5px solid rgba(175,125,255,0.55) !important;
+  box-shadow: 0 14px 54px rgba(80,28,170,0.5),
+              inset 0 1px 0 rgba(255,255,255,0.3),
+              0 0 70px rgba(150,90,255,0.16) !important;
+  color: #efe6ff !important;
+}
+
+/* ตัวอักษรในการ์ด → สว่างทั้งหมด อ่านชัดบนแก้วเข้ม */
+.glass-card, .glass-card p, .glass-card span, .glass-card td, .glass-card li,
+.gemini-content, .gemini-content p,
+.digit-label, .count, .sum-item, .stat-label, .input-label, label {
+  color: #efe6ff !important;
+}
+
+/* ป้ายหัวข้อการ์ด → Chonburi ใหญ่ นีออนเรืองแสง (คงสีประจำช่อง) */
+.result-badge, .analytics-title {
+  font-family: 'Chonburi', cursive !important;
+  font-size: 1.5rem !important;
+  letter-spacing: 0.5px;
+  font-weight: 400 !important;
+}
+.gold-badge   { color: #ffd76b !important; text-shadow: 0 0 16px rgba(255,200,80,0.8); -webkit-text-fill-color: #ffd76b; }
+.pink-badge   { color: #ff8ad0 !important; text-shadow: 0 0 16px rgba(255,120,200,0.8); -webkit-text-fill-color: #ff8ad0; }
+.cyan-badge   { color: #74e8ff !important; text-shadow: 0 0 16px rgba(100,220,255,0.8); -webkit-text-fill-color: #74e8ff; }
+.purple-badge { color: #c9a6ff !important; text-shadow: 0 0 16px rgba(170,120,255,0.8); -webkit-text-fill-color: #c9a6ff; }
+.gemini-badge { font-family: 'Chonburi', cursive !important; font-size: 1.5rem !important; }
+
+/* เลขฟันธง — ใหญ่ขึ้น เรืองแสงนีออน */
+.fanthong-number .number-digit {
+  width: 66px;
+  height: 84px;
+  font-size: 2.6rem;
+  background: rgba(255,255,255,0.06) !important;
+  box-shadow: 0 0 26px rgba(150,90,255,0.4), inset 0 0 20px rgba(130,90,255,0.18) !important;
+  text-shadow: 0 0 16px currentColor, 0 0 4px currentColor;
+}
+
+/* การ์ด Gemini → แก้วกาแล็กซีเข้ม ตัวอักษรสว่าง ตัวหนาทอง */
+.gemini-card {
+  background: linear-gradient(160deg, rgba(90,50,160,0.5), rgba(26,13,58,0.66)) !important;
+  border: 1.5px solid rgba(124,90,255,0.6) !important;
+}
+/* การ์ด Gemini → แก้วกาแล็กซีเข้ม ตัวอักษรสว่าง ตัวหนาทอง */
+.gemini-card {
+  background: linear-gradient(160deg, rgba(90,50,160,0.52), rgba(26,13,58,0.72)) !important;
+  border: 2px solid rgba(150,110,255,0.65) !important;
+  padding: 24px 20px !important;
+}
+.gemini-content {
+  padding: 16px 14px !important;
+  font-size: 1.25rem !important;
+  line-height: 1.95 !important;
+  letter-spacing: 0.4px !important;
+  color: #f1e8ff !important;
+  font-weight: 500 !important;
+}
+.gemini-content p {
+  color: #f1e8ff !important;
+  font-weight: 500 !important;
+  margin-bottom: 20px !important;
+}
+.gemini-content strong, .gemini-content b {
+  color: #ffd76b !important;
+  font-weight: 800 !important;
+  text-shadow: 0 0 12px rgba(255,200,80,0.65);
+}
+
+/* คำอธิบายใต้เลข (ความแรงสัญญาณ) → สว่างเด่น */
+.fanthong-prob { color: #ffaad8 !important; font-weight: 700; font-size: 1.05rem; }
+.fanthong-prob b { color: #ffd76b !important; text-shadow: 0 0 10px rgba(255,200,80,0.6); }
+
+/* หัวข้อใหญ่ section + hero → Chonburi ใหญ่ขึ้น เรืองแสง */
+.gradient-text-large { font-size: clamp(1.8rem, 4.5vw, 3.2rem) !important; filter: drop-shadow(0 0 18px rgba(180,110,255,0.6)); }
+.kinetic-h1 { font-size: clamp(3rem, 8vw, 6rem) !important; }
+.kinetic-h1 .char { filter: drop-shadow(0 0 20px rgba(180,120,255,0.7)); }
+
+/* ช่องกรอกเลข → แก้วเข้ม ตัวอักษรขาว */
+.cosmic-input {
+  color: #fff !important;
+  background: rgba(255,255,255,0.08) !important;
+  border: 2px solid rgba(175,125,255,0.5) !important;
+}
+.cosmic-input::placeholder { color: rgba(235,225,255,0.5) !important; }
+
+/* ตารางประวัติ + ความถี่ → ตัวเลขสว่างบนแก้วเข้ม */
+.history-table thead th {
+  background: rgba(30, 15, 60, 0.94) !important;
+  color: #ffd76b !important;
+  font-size: 1.15rem !important;
+  padding: 14px 16px !important;
+  border-bottom: 2.5px solid rgba(175, 125, 255, 0.6) !important;
+  text-shadow: 0 0 8px rgba(255, 215, 107, 0.4) !important;
+}
+.history-table th { color: #ffd76b !important; }
+.history-table td, .row-first .first-num, .row-last2 .last2-num {
+  color: #ffffff !important;
+  font-weight: 700;
+  font-size: 1.1rem !important;
+  padding: 12px 14px !important;
+  border-bottom: 1.5px solid rgba(175, 125, 255, 0.25) !important;
+}
+.history-row:hover {
+  background: rgba(175, 125, 255, 0.15) !important;
+}
+.bar-track { background: rgba(255,255,255,0.1) !important; }
+
+/* ข้อความสำรอง Gemini (ตอน AI ไม่ว่าง) → สว่างบนแก้วเข้ม */
+.gemini-fallback-text { color: #e9ddff !important; font-weight: 500 !important; }
+.gemini-fallback-note { color: #c3b2e8 !important; opacity: 1 !important; }
+
+/* ═══════════════════════════════════════════════════════
+   📱💎 RESPONSIVE สวยๆ — มือถือ / iPad / จอเล็ก ลื่นไหลทุกขนาด
+   ═══════════════════════════════════════════════════════ */
+
+/* กันเลื่อนแนวนอน + แตะแล้วมีไฮไลต์นุ่มๆ */
+html, body { overflow-x: hidden; max-width: 100%; }
+* { -webkit-tap-highlight-color: rgba(160,110,255,0.25); }
+img, .glass-card, .bento-item { max-width: 100%; }
+
+/* เลขฟันธง — ขนาดลื่นไหล (fluid) สวยพอดีทุกจอ ไม่ต้องไล่ทีละ breakpoint */
+.fanthong-number { flex-wrap: nowrap; justify-content: center; }
+.fanthong-number .number-digit {
+  width: clamp(38px, 11vw, 70px) !important;
+  height: clamp(50px, 14.5vw, 88px) !important;
+  font-size: clamp(1.45rem, 5.6vw, 2.7rem) !important;
+}
+
+/* 📲 iPad / แท็บเล็ต — 2 คอลัมน์พอดีจอ */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .results-bento, .analytics-bento, .input-bento { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .bento-wide, .bento-featured { grid-column: span 2; }
+  .header-brand { font-size: 1.4rem; }
+}
+
+/* 📱 มือถือ — ปุ่ม/ช่องกรอกแตะง่าย หัวข้อพอดี ไม่ล้น */
+@media (max-width: 768px) {
+  .app-header { padding: 8px 12px; gap: 10px; }
+  .header-badge { display: none; }                 /* กันล้นบนจอแคบ */
+  .result-badge, .analytics-title, .gemini-badge { font-size: 1.2rem !important; }
+  .kinetic-h1 { font-size: clamp(2.2rem, 11vw, 3.4rem) !important; }
+  .gradient-text-large { font-size: clamp(1.5rem, 6vw, 2.2rem) !important; }
+  button, .btn, .btn-cosmic, .cosmic-input { min-height: 52px; }
+  .bento-item { padding: 18px 16px; }
+}
+@media (max-width: 420px) {
+  .header-sub { display: none; }
+  .header-brand { font-size: 1.15rem; }
+  .header-logo { width: 44px; height: 44px; }
+}
+
+
+/* 🏆 TOP 3 DIGIT FREQUENCY HIGHLIGHTS — โดดเด่น กระพริบสวยงามสะดุดตา */
+.bar-fill.rank-1 {
+  background: linear-gradient(90deg, #ff007f, #ff66b2, #ff007f) !important;
+  box-shadow: 0 0 14px #ff007f, 0 0 4px #ff66b2 !important;
+  animation: glowPulse1 1.8s infinite ease-in-out !important;
+}
+.bar-fill.rank-2 {
+  background: linear-gradient(90deg, #ffaa00, #ffee55, #ffaa00) !important;
+  box-shadow: 0 0 14px #ffaa00, 0 0 4px #ffee55 !important;
+  animation: glowPulse2 1.8s infinite ease-in-out !important;
+}
+.bar-fill.rank-3 {
+  background: linear-gradient(90deg, #00cc66, #66ffb2, #00cc66) !important;
+  box-shadow: 0 0 14px #00cc66, 0 0 4px #66ffb2 !important;
+  animation: glowPulse3 1.8s infinite ease-in-out !important;
+}
+
+/* ตัวหนังสือบอกเลขมงคลอันดับ 1, 2, 3 */
+.digit-label.rank-1 { color: #ff3399 !important; font-weight: 800 !important; text-shadow: 0 0 10px rgba(255, 51, 153, 0.6) !important; }
+.count.rank-1 { color: #ff3399 !important; font-weight: 800 !important; }
+
+.digit-label.rank-2 { color: #ffb700 !important; font-weight: 800 !important; text-shadow: 0 0 10px rgba(255, 183, 0, 0.6) !important; }
+.count.rank-2 { color: #ffb700 !important; font-weight: 800 !important; }
+
+.digit-label.rank-3 { color: #00e676 !important; font-weight: 800 !important; text-shadow: 0 0 10px rgba(0, 230, 118, 0.6) !important; }
+.count.rank-3 { color: #00e676 !important; font-weight: 800 !important; }
+
+@keyframes glowPulse1 {
+  0%, 100% {
+    box-shadow: 0 0 8px #ff007f, inset 0 0 4px rgba(255, 0, 127, 0.4);
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow: 0 0 24px #ff007f, 0 0 8px #ff66b2, inset 0 0 10px rgba(255, 0, 127, 0.7);
+    filter: brightness(1.25);
+  }
+}
+@keyframes glowPulse2 {
+  0%, 100% {
+    box-shadow: 0 0 8px #ffaa00, inset 0 0 4px rgba(255, 170, 0, 0.4);
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow: 0 0 24px #ffaa00, 0 0 8px #ffee55, inset 0 0 10px rgba(255, 170, 0, 0.7);
+    filter: brightness(1.25);
+  }
+}
+@keyframes glowPulse3 {
+  0%, 100% {
+    box-shadow: 0 0 8px #00cc66, inset 0 0 4px rgba(0, 204, 102, 0.4);
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow: 0 0 24px #00cc66, 0 0 8px #66ffb2, inset 0 0 10px rgba(0, 204, 102, 0.7);
+    filter: brightness(1.25);
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   ✨ HERO TITLE — "AI THAI LOTTERY" บรรทัดเดียวเสมอ ทุกขนาดจอ
+   (วางท้ายไฟล์เพื่อ override ทุก media query ก่อนหน้า)
+   ═══════════════════════════════════════════════════════ */
+.kinetic-h1 {
+  /* ขนาดยืดหยุ่นตามความกว้างจอ — คำนวณให้ 15 ตัวอักษรพอดี 1 บรรทัดเสมอ */
+  font-size: clamp(1.5rem, 7vw, 5.5rem) !important;
+  letter-spacing: clamp(0.5px, 0.35vw, 3px) !important;
+  line-height: 1.35 !important;
+  white-space: nowrap !important;
+  max-width: 100%;
+}
+.kinetic-h1 .kinetic-word { display: inline-block; white-space: nowrap; }
+.kinetic-h1 .kinetic-gap { display: inline-block; width: 0.45em; }
+
+
+/* ═══════════════════════════════════════════════════════
+   📊 TRACK RECORD — ผลงานจริงย้อนหลัง (Fusion v7)
+   ═══════════════════════════════════════════════════════ */
+.track-summary {
+  color: #e8dcff;
+  font-size: 0.98rem;
+  line-height: 1.75;
+  margin: 12px 0 10px;
+  text-align: center;
+}
+.track-summary b { color: #ffd76b; }
+.track-table-wrap { overflow-x: auto; max-height: 340px; overflow-y: auto; }
+.track-table td { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.consensus-note {
+  color: #bfaee6;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  text-align: center;
+  margin-top: 10px;
+}
+.data-freshness { font-size: 0.9rem; line-height: 1.7; }
+.data-freshness b { color: #ffd76b; }
+@media (max-width: 480px) {
+  /* !important เพราะกฎ .history-table td ด้านบนใช้ !important ทับขนาดไว้ (ตารางประวัติปกติ) */
+  .track-table th, .history-table.track-table td { font-size: 0.72rem !important; padding: 6px 4px !important; white-space: normal; }
+  .track-table .first-num, .track-table .last2-num { letter-spacing: 0 !important; font-size: 0.78rem !important; }
+  .track-summary { font-size: 0.88rem; }
+}
+.official-tag {
+  display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+  padding: 3px 9px; border-radius: 999px; color: #ffd76b;
+  background: rgba(255, 215, 107, 0.14); border: 1px solid rgba(255, 215, 107, 0.45);
+}
