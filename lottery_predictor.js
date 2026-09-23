@@ -32,7 +32,62 @@ document.addEventListener('DOMContentLoaded', () => {
   loadAndDisplayHistory();
   updateNextDrawDate();
   loadOfficialHistory();
+  initPwa();
 });
+
+// ═══════════════════════════════════
+// 1.5) PWA — ติดตั้งเป็นแอปบนมือถือ + ใช้ออฟไลน์
+// ═══════════════════════════════════
+const INSTALL_DISMISS_KEY = 'lottoMoM69_install_dismissed';
+let _installPrompt = null;
+
+function initPwa() {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(err => console.warn('service worker:', err.message));
+  }
+  const banner = document.getElementById('installBanner');
+  const btn = document.getElementById('installBtn');
+  const close = document.getElementById('installClose');
+  if (!banner || !btn || !close) return;
+
+  const standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  let dismissedAt = 0;
+  try { dismissedAt = Number(localStorage.getItem(INSTALL_DISMISS_KEY) || 0); } catch { /* ไม่มี storage ก็ไม่เป็นไร */ }
+  const recentlyDismissed = Date.now() - dismissedAt < 7 * 24 * 3600 * 1000;
+  if (standalone || recentlyDismissed) return;
+
+  const hide = () => { banner.hidden = true; };
+  close.addEventListener('click', () => {
+    hide();
+    try { localStorage.setItem(INSTALL_DISMISS_KEY, String(Date.now())); } catch { /* ข้าม */ }
+  });
+
+  // Android / Chrome / Edge: เบราว์เซอร์บอกเองว่าติดตั้งได้
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    _installPrompt = e;
+    banner.hidden = false;
+  });
+  btn.addEventListener('click', async () => {
+    if (!_installPrompt) return;
+    _installPrompt.prompt();
+    const choice = await _installPrompt.userChoice.catch(() => null);
+    _installPrompt = null;
+    if (choice && choice.outcome === 'accepted') hide();
+  });
+  window.addEventListener('appinstalled', () => {
+    hide();
+    showNotification('✅ ติดตั้งแอป LottoMOM บนมือถือแล้ว — เปิดจากไอคอนบนหน้าจอได้เลยค่ะ', 'success', 6000);
+  });
+
+  // iPhone/iPad: Safari ไม่มีปุ่มติดตั้ง ต้องกดแชร์เอง
+  const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  if (isIos) {
+    document.getElementById('installText').textContent = '📲 ติดตั้งเป็นแอป: กดปุ่มแชร์ (สี่เหลี่ยมมีลูกศร) แล้วเลือก "เพิ่มไปยังหน้าจอโฮม"';
+    btn.hidden = true;
+    banner.hidden = false;
+  }
+}
 
 // ═══════════════════════════════════
 // 2) LOCALSTORAGE — Cumulative Data
